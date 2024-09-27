@@ -1,4 +1,4 @@
-package com.camayopolis.service.exception;
+package com.camayopolis.presentation.advice;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.camayopolis.presentation.DetalleErrorEnum;
