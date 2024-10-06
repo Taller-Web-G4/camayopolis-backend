@@ -1,13 +1,15 @@
 package com.camayopolis.service.interfaces;
 
-import com.camayopolis.presentation.dto.MovieDTO;
+import com.camayopolis.presentation.dto.MovieDto;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IMovieService {
-    Optional<MovieDTO> getMovieById(Integer id);
+    List<MovieDto> getAllMovies();
+    Optional<MovieDto> getMovieById(Integer id);
     boolean existsById(Integer id);
-    Optional<MovieDTO> createMovie(MovieDTO movieDTO);
-    Optional<MovieDTO> updateMovie(Integer id, MovieDTO movieDTO);
+    Optional<MovieDto> createMovie(MovieDto movieDTO);
+    Optional<MovieDto> updateMovie(Integer id, MovieDto movieDTO);
     void deleteMovie(Integer id);
 }

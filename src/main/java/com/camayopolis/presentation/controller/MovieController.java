@@ -1,11 +1,14 @@
 package com.camayopolis.presentation.controller;
 
-import com.camayopolis.presentation.dto.MovieDTO;
+import com.camayopolis.presentation.dto.MovieDto;
 import com.camayopolis.service.interfaces.IMovieService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/movie")
@@ -16,8 +19,44 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    @GetMapping("/get-all")
+    public ResponseEntity<List<MovieDto>> getAllMovies() {
+        List<MovieDto> movies = movieService.getAllMovies();
+
+        if (movies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(movies);
+    }
+
     @GetMapping("/get-by-id/{id}")
-    public MovieDTO getMovieById(@PathVariable Integer id) {
-        return movieService.getMovieById(id).orElse(null);
+    public ResponseEntity<MovieDto> getMovieById(@PathVariable Integer id) {
+        return movieService.getMovieById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Optional<MovieDto>> createMovie(@Valid @RequestBody MovieDto movieDTO) {
+        Optional<MovieDto> createdMovie = movieService.createMovie(movieDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<MovieDto> updateMovie(@PathVariable Integer id, @Valid @RequestBody MovieDto movieDTO) {
+        Optional<MovieDto> updatedMovie = movieService.updateMovie(id, movieDTO);
+
+        return updatedMovie.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable Integer id) {
+        if (!movieService.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        movieService.deleteMovie(id);
+        return ResponseEntity.noContent().build();
     }
 }

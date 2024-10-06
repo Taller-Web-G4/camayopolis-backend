@@ -2,11 +2,12 @@ package com.camayopolis.service.implementation;
 
 import com.camayopolis.persistence.entity.MovieEntity;
 import com.camayopolis.persistence.repository.IMovieRepository;
-import com.camayopolis.presentation.dto.MovieDTO;
+import com.camayopolis.presentation.dto.MovieDto;
 import com.camayopolis.service.interfaces.IMovieService;
 import com.camayopolis.util.mapper.IMovieMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,13 +21,16 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
-    public Optional<MovieDTO> getMovieById(Integer id) {
-        Optional<MovieEntity> movieEntity = this.movieRepository.findById(id);
-        if (movieEntity.isEmpty()) {
-            return Optional.empty();
-        }
+    public List<MovieDto> getAllMovies() {
+        List<MovieEntity> movieEntities = this.movieRepository.findAll();
+        return movieMapper.toDto(movieEntities);
+    }
 
-        return movieMapper.toDTO(movieEntity.get());
+    @Override
+    public Optional<MovieDto> getMovieById(Integer id) {
+        Optional<MovieEntity> movieEntity = this.movieRepository.findById(id);
+        return movieEntity.map(movieMapper::toDto);
+
     }
 
     @Override
@@ -35,29 +39,27 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
-    public Optional<MovieDTO> createMovie(MovieDTO movieDTO) {
-        Optional<MovieEntity> movieEntity = movieMapper.toEntity(movieDTO);
-        if (movieEntity.isEmpty()) {
-            return Optional.empty();
-        }
-        MovieEntity savedEntity = movieRepository.save(movieEntity.get());
-        return movieMapper.toDTO(savedEntity);
+    public Optional<MovieDto> createMovie(MovieDto movieDTO) {
+        MovieEntity movieEntity = movieMapper.toEntity(movieDTO);
+        MovieEntity savedEntity = movieRepository.save(movieEntity);
+        return Optional.of(movieMapper.toDto(savedEntity));
     }
 
     @Override
-    public Optional<MovieDTO> updateMovie(Integer id, MovieDTO movieDTO) {
+    public Optional<MovieDto> updateMovie(Integer id, MovieDto movieDTO) {
         if (!movieRepository.existsById(id)) {
             return Optional.empty();
         }
 
-        Optional<MovieEntity> movieEntity = movieMapper.toEntity(movieDTO);
-        if (movieEntity.isEmpty()) {
+        MovieEntity existingMovie = movieRepository.findById(id).orElse(null);
+        if (existingMovie == null) {
             return Optional.empty();
         }
 
-        movieEntity.get().setId(id);
-        MovieEntity updatedEntity = movieRepository.save(movieEntity.get());
-        return movieMapper.toDTO(updatedEntity);
+        movieMapper.partialUpdate(movieDTO, existingMovie);
+        MovieEntity updatedEntity = movieRepository.save(existingMovie);
+
+        return Optional.of(movieMapper.toDto(updatedEntity));
     }
 
     @Override

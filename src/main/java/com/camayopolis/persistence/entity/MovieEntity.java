@@ -54,12 +54,12 @@ public class MovieEntity {
     @JoinColumn(name = "cla_id")
     private ClassificationEntity cla;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cat_id")
-    private CategoryEntity cat;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "cat_id")
+//    private CategoryEntity cat;
 
-    @ManyToMany(mappedBy = "peliculas")
-    private Set<CategoryEntity> categorias = new LinkedHashSet<>();
+//    @ManyToMany(mappedBy = "peliculas")
+//    private Set<CategoryEntity> categorias = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "pel")
     private Set<MovieFormatEntity> peliculaFormatoes = new LinkedHashSet<>();
@@ -69,5 +69,8 @@ public class MovieEntity {
 
     @OneToMany(mappedBy = "pel")
     private Set<SessionEntity> sesions = new LinkedHashSet<>();
+
+    @ManyToMany(mappedBy = "peliculas")
+    private Set<CategoryEntity> categorias = new LinkedHashSet<>();
 
 }
