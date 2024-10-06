@@ -47,6 +47,12 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/method/post").hasRole(ADMIN_ROLE);
                     http.requestMatchers(HttpMethod.PUT, "/method/put").hasAnyRole(ADMIN_ROLE);
                     http.requestMatchers(HttpMethod.DELETE, "/method/delete").hasRole(ADMIN_ROLE);
+                    http.requestMatchers(HttpMethod.POST, "/movie/create").hasRole(ADMIN_ROLE);
+                    http.requestMatchers(HttpMethod.PUT, "/movie/update/**").hasRole(ADMIN_ROLE);
+                    http.requestMatchers(HttpMethod.DELETE, "/movie/delete/**").hasRole(ADMIN_ROLE);
+                    http.requestMatchers(HttpMethod.POST, "/category/create").hasRole(ADMIN_ROLE);
+                    http.requestMatchers(HttpMethod.PUT, "/category/update/**").hasRole(ADMIN_ROLE);
+                    http.requestMatchers(HttpMethod.DELETE, "/category/delete/**").hasRole(ADMIN_ROLE);
                     // resto de endpoints no especificados
                     http.anyRequest().permitAll();
                 })
