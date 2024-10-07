@@ -8,8 +8,11 @@ import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ICategoryMapper {
+
+    @Mapping(target = "catNombre", source = "name")
     CategoryEntity toEntity(CategoryDto categoryDto);
 
+    @InheritInverseConfiguration(name = "toEntity")
     CategoryDto toDto(CategoryEntity categoryEntity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

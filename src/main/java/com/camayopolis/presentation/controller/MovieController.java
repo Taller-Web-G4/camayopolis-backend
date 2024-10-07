@@ -19,7 +19,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/getAll")
     public ResponseEntity<List<MovieDto>> getAllMovies() {
         List<MovieDto> movies = movieService.getAllMovies();
 
@@ -29,7 +29,7 @@ public class MovieController {
         return ResponseEntity.ok(movies);
     }
 
-    @GetMapping("/get-by-id/{id}")
+    @GetMapping("/getById/{id}")
     public ResponseEntity<MovieDto> getMovieById(@PathVariable Integer id) {
         return movieService.getMovieById(id)
                 .map(ResponseEntity::ok)

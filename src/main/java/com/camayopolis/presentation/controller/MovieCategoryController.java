@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movie-category")
+@RequestMapping("/movieCategory")
 public class MovieCategoryController {
 
     private final IMovieCategoryService movieCategoryService;
@@ -17,13 +17,13 @@ public class MovieCategoryController {
         this.movieCategoryService = movieCategoryService;
     }
 
-    @GetMapping("/categories-by-movie/{movieId}")
+    @GetMapping("/categoriesByMovie/{movieId}")
     public ResponseEntity<List<MovieCategoryDto>> getCategoriesByMovie(@PathVariable Integer movieId) {
         List<MovieCategoryDto> categories = movieCategoryService.getCategoriesByMovieId(movieId);
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/movies-by-category/{categoryId}")
+    @GetMapping("/moviesByCategory/{categoryId}")
     public ResponseEntity<List<MovieCategoryDto>> getMoviesByCategory(@PathVariable Integer categoryId) {
         List<MovieCategoryDto> movies = movieCategoryService.getMoviesByCategoryId(categoryId);
         return ResponseEntity.ok(movies);

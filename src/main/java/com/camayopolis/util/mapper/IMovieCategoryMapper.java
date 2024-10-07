@@ -6,10 +6,10 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface IMovieCategoryMapper {
-    @Mapping(source = "catCatNombre", target = "cat.catNombre")
-    @Mapping(source = "catId", target = "cat.id")
-    @Mapping(source = "pelPelTitulo", target = "pel.pelTitulo")
-    @Mapping(source = "pelId", target = "pel.id")
+    @Mapping(source = "categoryName", target = "cat.catNombre")
+    @Mapping(source = "categoryId", target = "cat.id")
+    @Mapping(source = "movieTitle", target = "pel.pelTitulo")
+    @Mapping(source = "movieId", target = "pel.id")
     MovieCategoryEntity toEntity(MovieCategoryDto movieCategoryDto);
 
     @InheritInverseConfiguration(name = "toEntity")
