@@ -2,6 +2,7 @@ package com.camayopolis.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -28,5 +29,9 @@ public class UserEntity {
     @Column(name = "usu_rol", nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleEnum usuRol;
+
+    @ColumnDefault("false")
+    @Column(name = "usu_activado")
+    private Boolean usuActivado;
 
 }

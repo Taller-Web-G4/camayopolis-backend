@@ -55,6 +55,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     public Authentication authenticate(String username, String password) {
+        UserEntity userEntity = userRepository.findByUsuCorreo(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        if (!userEntity.getUsuActivado()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Tu cuenta no está activada. Por favor confirma tu correo.");
+        }
+
         UserDetails userDetails = this.loadUserByUsername(username);
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
@@ -65,21 +72,31 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     public AuthResponse registerUser(AuthRegisterRequest authRegisterRequest) {
+        UserEntity existingUser = userRepository.findByUsuCorreo(authRegisterRequest.email())
+                .orElse(null);
 
-        if (userRepository.existsByUsuCorreo(authRegisterRequest.email())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "El correo electrónico ya está registrado.");
+        if (existingUser != null) {
+            if (existingUser.getUsuActivado()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "El correo electrónico ya está registrado.");
+            } else {
+                userRepository.delete(existingUser);
+            }
         }
 
-        UserEntity userEntity = UserEntity.builder()
+        UserEntity newUser = UserEntity.builder()
                 .usuCorreo(authRegisterRequest.email())
                 .usuContrasena(passwordEncoder.encode(authRegisterRequest.password()))
                 .usuRol(RoleEnum.USER)
+                .usuActivado(false)
                 .build();
 
-        userRepository.save(userEntity);
+        userRepository.save(newUser);
 
-        String accessToken = jwtUtil.createToken(new UsernamePasswordAuthenticationToken(userEntity.getUsuCorreo(), userEntity.getUsuContrasena(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))));
+        return new AuthResponse(newUser.getUsuCorreo(), "Usuario registrado exitosamente. Confirma tu cuenta.", "", false);
+    }
 
-        return new AuthResponse(userEntity.getUsuCorreo(), "Usuario registrado exitosamente", accessToken, true);
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByUsuCorreo(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
     }
 }
