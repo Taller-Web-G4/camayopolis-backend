@@ -13,7 +13,7 @@ public interface IMovieMapper {
     @Mapping(source = "isComingSoon", target = "pelEsEstrenoProximo")
     @Mapping(source = "trailer", target = "pelTrailerUrl")
     @Mapping(source = "posterUrl", target = "pelPosterUrl")
-    @Mapping(source = "runTime", target = "pelDuracionMinutos")
+    @Mapping(source = "runtime", target = "pelDuracionMinutos")
     @Mapping(source = "openingDate", target = "pelFechaEstreno")
     @Mapping(source = "synopsis", target = "pelSinopsis")
     @Mapping(source = "title", target = "pelTitulo")
