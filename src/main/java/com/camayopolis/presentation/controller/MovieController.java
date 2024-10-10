@@ -1,5 +1,6 @@
 package com.camayopolis.presentation.controller;
 
+import com.camayopolis.presentation.dto.MovieDetailedDto;
 import com.camayopolis.presentation.dto.MovieDto;
 import com.camayopolis.service.interfaces.IMovieService;
 import jakarta.validation.Valid;
@@ -58,5 +59,10 @@ public class MovieController {
 
         movieService.deleteMovie(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/getMovieDetailed/{id}")
+    public ResponseEntity<Optional<MovieDetailedDto>> getMovieDetailed(@PathVariable Integer id) {
+        Optional<MovieDetailedDto> movieDetailed = movieService.getMovieWithDetails(id);
+        return ResponseEntity.status(HttpStatus.OK).body(movieDetailed);
     }
 }

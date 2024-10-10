@@ -1,22 +1,33 @@
 package com.camayopolis.service.implementation;
 
+import com.camayopolis.persistence.entity.CinemaEntity;
 import com.camayopolis.persistence.entity.MovieEntity;
+import com.camayopolis.persistence.entity.SessionEntity;
 import com.camayopolis.persistence.repository.IMovieRepository;
+import com.camayopolis.presentation.dto.MovieDetailedDto;
 import com.camayopolis.presentation.dto.MovieDto;
 import com.camayopolis.service.interfaces.IMovieService;
 import com.camayopolis.util.mapper.IMovieMapper;
+import com.camayopolis.persistence.repository.ISessionRepository;
+import com.camayopolis.persistence.repository.ICinemaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements IMovieService {
     private final IMovieRepository movieRepository;
+    private final ISessionRepository sessionRepository;
+    private final ICinemaRepository cinemaRepository;
     private final IMovieMapper movieMapper;
 
-    public MovieServiceImpl(IMovieRepository movieRepository, IMovieMapper movieMapper) {
+    public MovieServiceImpl(IMovieRepository movieRepository, IMovieMapper movieMapper, ICinemaRepository cinemaRepository, ISessionRepository sessionRepository) {
         this.movieRepository = movieRepository;
+        this.cinemaRepository = cinemaRepository;
+        this.sessionRepository = sessionRepository;
         this.movieMapper = movieMapper;
     }
 
@@ -66,4 +77,32 @@ public class MovieServiceImpl implements IMovieService {
     public void deleteMovie(Integer id) {
         this.movieRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<MovieDetailedDto> getMovieWithDetails(Integer movieId){
+        MovieEntity movieEntity = movieRepository.findById(movieId).orElse(null);
+        List<SessionEntity> sessionEntities = sessionRepository.findByPel_Id(movieId);
+        Map<Integer, List<SessionEntity>> sessionsByCinemaId = sessionEntities.stream().collect(Collectors.groupingBy(session -> session.getCin().getId()));
+        List<MovieDetailedDto.CinemaDto> cinemaDtos = sessionsByCinemaId.entrySet().stream().map(entry -> {
+            Integer cinemaId = entry.getKey();
+            CinemaEntity cinemaEntity = cinemaRepository.findById(cinemaId).orElse(null);
+            List<SessionEntity> sessionsForCinema = entry.getValue();
+            return new MovieDetailedDto.CinemaDto(cinemaEntity.getCinNombre(), cinemaEntity.getCinCiudad());
+        }).toList();
+        MovieDetailedDto movieDetailedDto = new MovieDetailedDto(
+                movieEntity.getId(),
+                movieEntity.getPelTitulo(),
+                movieEntity.getPelSinopsis(),
+                movieEntity.getPelFechaEstreno(),
+                movieEntity.getPelDuracionMinutos(),
+                movieEntity.getPelPosterUrl(),
+                movieEntity.getPelTrailerUrl(),
+                movieEntity.getPelEsEstrenoProximo(),
+                movieEntity.getPelEsNuevoLanzamiento(),
+                movieEntity.getPelEsPreventa(),
+                cinemaDtos
+        );
+        return Optional.of(movieDetailedDto);
+    }
+
 }
