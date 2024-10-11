@@ -13,6 +13,7 @@ public record MovieDto(
         String trailer,
         Boolean isComingSoon,
         Boolean isNewRelease,
-        Boolean isPreSale
+        Boolean isPreSale,
+        Boolean isInTheater
 ) implements Serializable {
 }

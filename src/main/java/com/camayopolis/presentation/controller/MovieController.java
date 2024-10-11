@@ -36,6 +36,26 @@ public class MovieController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/getInTheaters")
+    public ResponseEntity<List<MovieDto>> getMoviesInTheaters() {
+        List<MovieDto> movies = movieService.getMoviesInTheaters();
+
+        if (movies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/getNewReleases")
+    public ResponseEntity<List<MovieDto>> getNewReleases() {
+        List<MovieDto> movies = movieService.getNewReleases();
+
+        if (movies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(movies);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Optional<MovieDto>> createMovie(@Valid @RequestBody MovieDto movieDTO) {
         Optional<MovieDto> createdMovie = movieService.createMovie(movieDTO);
