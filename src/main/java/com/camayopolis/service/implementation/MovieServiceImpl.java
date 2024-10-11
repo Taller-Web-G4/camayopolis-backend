@@ -12,6 +12,7 @@ import com.camayopolis.persistence.repository.ISessionRepository;
 import com.camayopolis.persistence.repository.ICinemaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
@@ -87,7 +88,13 @@ public class MovieServiceImpl implements IMovieService {
             Integer cinemaId = entry.getKey();
             CinemaEntity cinemaEntity = cinemaRepository.findById(cinemaId).orElse(null);
             List<SessionEntity> sessionsForCinema = entry.getValue();
-            return new MovieDetailedDto.CinemaDto(cinemaEntity.getCinNombre(), cinemaEntity.getCinCiudad());
+            List<MovieDetailedDto.FuncionDto> functions = sessionsForCinema.stream()
+                    .map(session -> {
+                        String formattedTime = session.getSesHoraInicio().format(DateTimeFormatter.ofPattern("hh:mm a"));
+                        return new MovieDetailedDto.FuncionDto(List.of(formattedTime));
+                    })
+                    .toList();
+            return new MovieDetailedDto.CinemaDto(cinemaEntity.getCinNombre(), cinemaEntity.getCinCiudad(), functions);
         }).toList();
         MovieDetailedDto movieDetailedDto = new MovieDetailedDto(
                 movieEntity.getId(),

@@ -18,6 +18,11 @@ public record MovieDetailedDto(
 ) {
     public record CinemaDto(
             String cine,
-            String ciudad
+            String ciudad,
+            List<FuncionDto> funciones
     ) {}
+
+    public record FuncionDto(
+            List<String> horarios
+    ){}
 }
