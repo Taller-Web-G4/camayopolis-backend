@@ -46,9 +46,9 @@ public class MovieController {
         return ResponseEntity.ok(movies);
     }
 
-    @GetMapping("/getNewReleases")
-    public ResponseEntity<List<MovieDto>> getNewReleases() {
-        List<MovieDto> movies = movieService.getNewReleases();
+    @GetMapping("/getUpcomingReleases")
+    public ResponseEntity<List<MovieDto>> getUpcomingReleases() {
+        List<MovieDto> movies = movieService.getUpcomingReleases();
 
         if (movies.isEmpty()) {
             return ResponseEntity.noContent().build();

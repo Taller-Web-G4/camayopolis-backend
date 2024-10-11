@@ -40,8 +40,8 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
-    public List<MovieDto> getNewReleases() {
-        List<MovieEntity> movieEntities = this.movieRepository.findByPelEsNuevoLanzamiento(true);
+    public List<MovieDto> getUpcomingReleases() {
+        List<MovieEntity> movieEntities = this.movieRepository.findByPelEsEstrenoProximo(true);
         return movieMapper.toDto(movieEntities);
     }
 
