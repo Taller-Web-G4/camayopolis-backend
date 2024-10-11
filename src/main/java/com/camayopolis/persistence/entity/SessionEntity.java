@@ -37,6 +37,18 @@ public class SessionEntity {
     @JoinColumn(name = "pel_id", nullable = false)
     private MovieEntity pel;
 
+    @Column(name = "ses_formato", length = 50)
+    private String sesFormato;
+
+    @Column(name = "ses_tipo", length = 50)
+    private String sesTipo;
+
+    @Column(name = "ses_idioma", length = 50)
+    private String sesIdioma;
+
+    @Column(name = "ses_fecha")
+    private String sesFecha;
+
     @OneToMany(mappedBy = "ses")
     private Set<SeatEntity> butacas = new LinkedHashSet<>();
 

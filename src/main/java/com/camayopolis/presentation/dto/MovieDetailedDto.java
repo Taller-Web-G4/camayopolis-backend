@@ -17,12 +17,16 @@ public record MovieDetailedDto(
         List<CinemaDto> cines
 ) {
     public record CinemaDto(
-            String cine,
-            String ciudad,
-            List<FuncionDto> funciones
+            String cinema,
+            String city,
+            List<FuncionDto> session
     ) {}
 
     public record FuncionDto(
-            List<String> horarios
+            String format,
+            String type,
+            String language,
+            List<String> schedules,
+            String date
     ){}
 }

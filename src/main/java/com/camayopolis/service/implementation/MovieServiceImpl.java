@@ -88,12 +88,24 @@ public class MovieServiceImpl implements IMovieService {
             Integer cinemaId = entry.getKey();
             CinemaEntity cinemaEntity = cinemaRepository.findById(cinemaId).orElse(null);
             List<SessionEntity> sessionsForCinema = entry.getValue();
-            List<MovieDetailedDto.FuncionDto> functions = sessionsForCinema.stream()
-                    .map(session -> {
-                        String formattedTime = session.getSesHoraInicio().format(DateTimeFormatter.ofPattern("hh:mm a"));
-                        return new MovieDetailedDto.FuncionDto(List.of(formattedTime));
-                    })
-                    .toList();
+            Map<String, List<SessionEntity>> groupedSessions = sessionsForCinema.stream()
+                    .collect(Collectors.groupingBy(session -> session.getSesFecha().toString()
+                            + session.getSesFormato()
+                            + session.getSesTipo()
+                            + session.getSesIdioma()));
+            List<MovieDetailedDto.FuncionDto> functions = groupedSessions.entrySet().stream().map(group -> {
+                List<String> schedules = group.getValue().stream()
+                        .map(session -> session.getSesHoraInicio().format(DateTimeFormatter.ofPattern("HH:mm")))
+                        .toList();
+                SessionEntity session = group.getValue().get(0);
+                return new MovieDetailedDto.FuncionDto(
+                        session.getSesFormato(),
+                        session.getSesTipo(),
+                        session.getSesIdioma(),
+                        schedules,
+                        session.getSesFecha()
+                );
+            }).toList();
             return new MovieDetailedDto.CinemaDto(cinemaEntity.getCinNombre(), cinemaEntity.getCinCiudad(), functions);
         }).toList();
         MovieDetailedDto movieDetailedDto = new MovieDetailedDto(
