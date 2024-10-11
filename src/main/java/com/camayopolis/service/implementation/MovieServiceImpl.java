@@ -46,6 +46,18 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
+    public List<MovieDto> getMoviesInTheaters() {
+        List<MovieEntity> movieEntities = this.movieRepository.findByPelEnCartelera(true);
+        return movieMapper.toDto(movieEntities);
+    }
+
+    @Override
+    public List<MovieDto> getUpcomingReleases() {
+        List<MovieEntity> movieEntities = this.movieRepository.findByPelEsEstrenoProximo(true);
+        return movieMapper.toDto(movieEntities);
+    }
+
+    @Override
     public boolean existsById(Integer id) {
         return this.movieRepository.existsById(id);
     }

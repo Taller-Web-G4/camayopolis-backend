@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface IMovieService {
     List<MovieDto> getAllMovies();
+    List<MovieDto> getMoviesInTheaters();
+    List<MovieDto> getUpcomingReleases();
     Optional<MovieDto> getMovieById(Integer id);
     boolean existsById(Integer id);
     Optional<MovieDto> createMovie(MovieDto movieDTO);
