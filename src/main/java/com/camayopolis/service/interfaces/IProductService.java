@@ -9,7 +9,7 @@ public interface IProductService {
     List<ProductDto> getAllProducts();
     Optional<ProductDto> getProductById(Integer id);
     boolean existsById(Integer id);
-    Optional<ProductDto> createProduct(ProductDto productDTO);
-    Optional<ProductDto> updateProduct(Integer id, ProductDto productDTO);
+    Optional<ProductDto> createProduct(ProductDto productDto);
+    Optional<ProductDto> updateProduct(Integer id, ProductDto productDto);
     void deleteProduct(Integer id);
 }

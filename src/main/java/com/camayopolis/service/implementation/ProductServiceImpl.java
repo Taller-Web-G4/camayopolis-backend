@@ -40,17 +40,17 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Optional<ProductDto> createProduct(ProductDto productDTO) {
-        ProductEntity product = productMapper.toEntity(productDTO);
+    public Optional<ProductDto> createProduct(ProductDto productDto) {
+        ProductEntity product = productMapper.toEntity(productDto);
         return Optional.of(productMapper.toDto(productRepository.save(product)));
     }
 
     @Override
-    public Optional<ProductDto> updateProduct(Integer id, ProductDto productDTO) {
+    public Optional<ProductDto> updateProduct(Integer id, ProductDto productDto) {
         if (!productRepository.existsById(id)) {
             return Optional.empty();
         }
-        ProductEntity product = productMapper.toEntity(productDTO);
+        ProductEntity product = productMapper.toEntity(productDto);
         product.setId(id);
         return Optional.of(productMapper.toDto(productRepository.save(product)));
     }

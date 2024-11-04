@@ -9,7 +9,7 @@ public interface IComboService {
     List<ComboDto> getAllCombos();
     Optional<ComboDto> getComboById(Integer id);
     boolean existsById(Integer id);
-    Optional<ComboDto> createCombo(ComboDto comboDTO);
-    Optional<ComboDto> updateCombo(Integer id, ComboDto comboDTO);
+    Optional<ComboDto> createCombo(ComboDto comboDto);
+    Optional<ComboDto> updateCombo(Integer id, ComboDto comboDto);
     void deleteCombo(Integer id);
 }

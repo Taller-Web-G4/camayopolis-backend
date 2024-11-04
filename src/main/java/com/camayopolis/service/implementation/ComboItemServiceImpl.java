@@ -6,18 +6,13 @@ import com.camayopolis.persistence.entity.ProductEntity;
 import com.camayopolis.persistence.repository.IComboItemRepository;
 import com.camayopolis.persistence.repository.IComboRepository;
 import com.camayopolis.persistence.repository.IProductRepository;
-import com.camayopolis.presentation.dto.ComboDto;
 import com.camayopolis.presentation.dto.ComboItemRequestDto;
 import com.camayopolis.presentation.dto.ComboItemResponseDto;
-import com.camayopolis.presentation.dto.ProductDto;
 import com.camayopolis.service.interfaces.IComboItemService;
-import com.camayopolis.service.interfaces.IComboService;
-import com.camayopolis.service.interfaces.IProductService;
 import com.camayopolis.util.mapper.IComboItemRequestMapper;
 import com.camayopolis.util.mapper.IComboItemResponseMapper;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
