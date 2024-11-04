@@ -76,7 +76,7 @@ public class MovieServiceImpl implements IMovieService {
         }
 
         MovieEntity movieEntity = movieMapper.toEntity(movieDTO);
-        movieEntity.setId(id); // Asegúrate de que el ID se establece correctamente
+        movieEntity.setId(id);
 
         return Optional.of(movieMapper.toDto(movieRepository.save(movieEntity)));
     }

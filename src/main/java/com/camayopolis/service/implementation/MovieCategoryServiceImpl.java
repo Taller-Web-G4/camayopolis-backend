@@ -25,10 +25,8 @@ public class MovieCategoryServiceImpl implements IMovieCategoryService {
     @Override
     @Transactional(readOnly = true)
     public List<MovieCategoryDto> getCategoriesByMovieId(Integer movieId) {
-        // Consulta basada en el ID de la película
         List<MovieCategoryEntity> movieCategories = movieCategoryRepository.findMovieCategoryEntitiesByPelId(movieId);
 
-        // Convertir entidades a DTOs
         return movieCategories.stream()
                 .map(movieCategoryMapper::toDto)
                 .collect(Collectors.toList());
@@ -37,10 +35,8 @@ public class MovieCategoryServiceImpl implements IMovieCategoryService {
     @Override
     @Transactional(readOnly = true)
     public List<MovieCategoryDto> getMoviesByCategoryId(Integer categoryId) {
-        // Consulta basada en el ID de la categoría
         List<MovieCategoryEntity> movieCategories = movieCategoryRepository.findMovieCategoryEntitiesByCatId(categoryId);
 
-        // Convertir entidades a DTOs
         return movieCategories.stream()
                 .map(movieCategoryMapper::toDto)
                 .collect(Collectors.toList());
