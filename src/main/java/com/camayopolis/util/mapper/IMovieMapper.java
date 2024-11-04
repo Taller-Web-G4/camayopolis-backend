@@ -18,6 +18,7 @@ public interface IMovieMapper {
     @Mapping(source = "openingDate", target = "pelFechaEstreno")
     @Mapping(source = "synopsis", target = "pelSinopsis")
     @Mapping(source = "title", target = "pelTitulo")
+    @Mapping(target = "cat", ignore = true)
     MovieEntity toEntity(MovieDto movieDto);
 
     @InheritInverseConfiguration(name = "toEntity")

@@ -80,6 +80,7 @@ public class MovieController {
         movieService.deleteMovie(id);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/getMovieDetailed/{id}")
     public ResponseEntity<Optional<MovieDetailedDto>> getMovieDetailed(@PathVariable Integer id) {
         Optional<MovieDetailedDto> movieDetailed = movieService.getMovieWithDetails(id);

@@ -1,5 +1,7 @@
 package com.camayopolis.presentation.dto;
 
+import jakarta.validation.constraints.Null;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -14,6 +16,7 @@ public record MovieDto(
         Boolean isComingSoon,
         Boolean isNewRelease,
         Boolean isPreSale,
-        Boolean isInTheater
+        Boolean isInTheater,
+        @Null CategoryDto category
 ) implements Serializable {
 }

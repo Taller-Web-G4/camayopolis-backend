@@ -75,15 +75,10 @@ public class MovieServiceImpl implements IMovieService {
             return Optional.empty();
         }
 
-        MovieEntity existingMovie = movieRepository.findById(id).orElse(null);
-        if (existingMovie == null) {
-            return Optional.empty();
-        }
+        MovieEntity movieEntity = movieMapper.toEntity(movieDTO);
+        movieEntity.setId(id); // Asegúrate de que el ID se establece correctamente
 
-        movieMapper.partialUpdate(movieDTO, existingMovie);
-        MovieEntity updatedEntity = movieRepository.save(existingMovie);
-
-        return Optional.of(movieMapper.toDto(updatedEntity));
+        return Optional.of(movieMapper.toDto(movieRepository.save(movieEntity)));
     }
 
     @Override
