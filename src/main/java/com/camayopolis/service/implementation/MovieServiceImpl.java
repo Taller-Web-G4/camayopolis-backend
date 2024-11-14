@@ -63,27 +63,22 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
-    public Optional<MovieDto> createMovie(MovieDto movieDTO) {
-        MovieEntity movieEntity = movieMapper.toEntity(movieDTO);
+    public Optional<MovieDto> createMovie(MovieDto movieDto) {
+        MovieEntity movieEntity = movieMapper.toEntity(movieDto);
         MovieEntity savedEntity = movieRepository.save(movieEntity);
         return Optional.of(movieMapper.toDto(savedEntity));
     }
 
     @Override
-    public Optional<MovieDto> updateMovie(Integer id, MovieDto movieDTO) {
+    public Optional<MovieDto> updateMovie(Integer id, MovieDto movieDto) {
         if (!movieRepository.existsById(id)) {
             return Optional.empty();
         }
 
-        MovieEntity existingMovie = movieRepository.findById(id).orElse(null);
-        if (existingMovie == null) {
-            return Optional.empty();
-        }
+        MovieEntity movieEntity = movieMapper.toEntity(movieDto);
+        movieEntity.setId(id);
 
-        movieMapper.partialUpdate(movieDTO, existingMovie);
-        MovieEntity updatedEntity = movieRepository.save(existingMovie);
-
-        return Optional.of(movieMapper.toDto(updatedEntity));
+        return Optional.of(movieMapper.toDto(movieRepository.save(movieEntity)));
     }
 
     @Override

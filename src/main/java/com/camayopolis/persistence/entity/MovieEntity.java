@@ -54,6 +54,10 @@ public class MovieEntity {
     @JoinColumn(name = "cla_id")
     private ClassificationEntity cla;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cat_id")
+    private CategoryEntity cat;
+
     @OneToMany(mappedBy = "pel")
     private Set<MovieFormatEntity> peliculaFormatoes = new LinkedHashSet<>();
 
