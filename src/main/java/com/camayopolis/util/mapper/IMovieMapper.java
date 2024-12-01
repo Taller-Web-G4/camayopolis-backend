@@ -19,6 +19,8 @@ public interface IMovieMapper {
     @Mapping(source = "synopsis", target = "pelSinopsis")
     @Mapping(source = "title", target = "pelTitulo")
     @Mapping(target = "cat", ignore = true)
+    @Mapping(source = "gender.id", target = "gen.id")
+    @Mapping(source = "gender.name", target = "gen.genNombre")
     MovieEntity toEntity(MovieDto movieDto);
 
     @InheritInverseConfiguration(name = "toEntity")

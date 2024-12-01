@@ -42,7 +42,12 @@ public class MovieServiceImpl implements IMovieService {
     public Optional<MovieDto> getMovieById(Integer id) {
         Optional<MovieEntity> movieEntity = this.movieRepository.findById(id);
         return movieEntity.map(movieMapper::toDto);
+    }
 
+    @Override
+    public List<MovieDto> getMoviesByGenderId(Integer genderId) {
+        List<MovieEntity> movieEntities = this.movieRepository.findByGen_Id(genderId);
+        return movieMapper.toDto(movieEntities);
     }
 
     @Override
