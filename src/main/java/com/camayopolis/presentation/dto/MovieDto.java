@@ -17,6 +17,7 @@ public record MovieDto(
         Boolean isNewRelease,
         Boolean isPreSale,
         Boolean isInTheater,
-        @Null CategoryDto category
+        @Null CategoryDto category,
+        @Null GenderDto gender
 ) implements Serializable {
 }
