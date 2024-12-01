@@ -86,4 +86,14 @@ public class MovieController {
         Optional<MovieDetailedDto> movieDetailed = movieService.getMovieWithDetails(id);
         return ResponseEntity.status(HttpStatus.OK).body(movieDetailed);
     }
+
+    @GetMapping("/getByGenderId/{id}")
+    public ResponseEntity<List<MovieDto>> getMoviesByGenderId(@PathVariable Integer id) {
+        List<MovieDto> movies = movieService.getMoviesByGenderId(id);
+
+        if (movies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(movies);
+    }
 }

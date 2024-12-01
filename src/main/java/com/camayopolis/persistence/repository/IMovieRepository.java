@@ -8,4 +8,5 @@ import java.util.List;
 public interface IMovieRepository extends ListCrudRepository<MovieEntity, Integer> {
     List<MovieEntity> findByPelEnCartelera(boolean enCartelera);
     List<MovieEntity> findByPelEsEstrenoProximo(boolean esEstrenoProximo);
+    List<MovieEntity> findByGen_Id(Integer genderId);
 }

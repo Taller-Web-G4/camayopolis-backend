@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface IMovieService {
     List<MovieDto> getAllMovies();
+    List<MovieDto> getMoviesByGenderId(Integer genderId);
     List<MovieDto> getMoviesInTheaters();
     List<MovieDto> getUpcomingReleases();
     Optional<MovieDto> getMovieById(Integer id);
