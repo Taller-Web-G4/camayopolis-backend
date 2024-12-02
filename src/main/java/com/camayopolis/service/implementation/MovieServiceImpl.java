@@ -10,8 +10,10 @@ import com.camayopolis.service.interfaces.IMovieService;
 import com.camayopolis.util.mapper.IMovieMapper;
 import com.camayopolis.persistence.repository.ISessionRepository;
 import com.camayopolis.persistence.repository.ICinemaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -134,6 +136,19 @@ public class MovieServiceImpl implements IMovieService {
                 cinemaDtos
         );
         return Optional.of(movieDetailedDto);
+    }
+
+    @Override
+    public List<MovieDto> getUpcomingMoviesOrderedByReleaseDate() {
+        LocalDate today = LocalDate.now();
+        List<MovieEntity> movieEntities = this.movieRepository.findByPelFechaEstrenoAfter(today, Sort.by(Sort.Order.asc("pelFechaEstreno")));
+        return movieMapper.toDto(movieEntities);
+    }
+
+    @Override
+    public List<MovieDto> getMoviesInTheatersOrderedByReleaseDate() {
+        List<MovieEntity> movieEntities = this.movieRepository.findByPelEnCarteleraTrueOrderByPelFechaEstrenoAsc();
+        return movieMapper.toDto(movieEntities);
     }
 
 }

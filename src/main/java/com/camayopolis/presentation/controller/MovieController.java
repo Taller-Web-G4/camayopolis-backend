@@ -96,4 +96,24 @@ public class MovieController {
         }
         return ResponseEntity.ok(movies);
     }
+
+    @GetMapping("/getUpcomingMoviesOrdered")
+    public ResponseEntity<List<MovieDto>> getUpcomingMoviesOrderedByReleaseDate() {
+        List<MovieDto> movies = movieService.getUpcomingMoviesOrderedByReleaseDate();
+
+        if (movies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/getMoviesInTheatersOrdered")
+    public ResponseEntity<List<MovieDto>> getMoviesInTheatersOrderedByReleaseDate() {
+        List<MovieDto> movies = movieService.getMoviesInTheatersOrderedByReleaseDate();
+
+        if (movies.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(movies);
+    }
 }
