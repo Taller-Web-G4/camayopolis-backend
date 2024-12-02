@@ -17,4 +17,6 @@ public interface IMovieService {
     Optional<MovieDto> updateMovie(Integer id, MovieDto movieDTO);
     void deleteMovie(Integer id);
     Optional<MovieDetailedDto> getMovieWithDetails(Integer movieId);
+    List<MovieDto> getUpcomingMoviesOrderedByReleaseDate();
+    List<MovieDto> getMoviesInTheatersOrderedByReleaseDate();
 }
