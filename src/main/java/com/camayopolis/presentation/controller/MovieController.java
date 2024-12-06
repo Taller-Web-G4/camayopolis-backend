@@ -58,7 +58,7 @@ public class MovieController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Optional<MovieDto>> createMovie(@Valid @RequestBody MovieDto movieDTO) {
+    public ResponseEntity<Optional<MovieDto>> createMovie(@Valid MovieDto movieDTO) {
         Optional<MovieDto> createdMovie = movieService.createMovie(movieDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
     }
